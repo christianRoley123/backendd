@@ -21,7 +21,14 @@ public interface LocalService {
   * @return lista de Locales
   */
 List<Local> findAll();
+	
+	/**
+	 * Cambia el estado a deshabilitado con el ID recibido
+	 * 
+	 * @param t_CabLocal_app_ID
+	 */
+	void deleteLocal(Integer t_CabLocal_app_ID);
 
- 
+
 	
 }

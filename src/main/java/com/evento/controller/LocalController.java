@@ -1,5 +1,7 @@
 package com.evento.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -30,30 +32,34 @@ public class LocalController {
 	
 	@Autowired
 	protected LocalService localService;
-	
 	protected ObjectMapper mapper;//recibir el objeto json por parte del usaurio y convertirlo a un objeto de tipo local	
+	
 	@RequestMapping(value="/guardar", method = RequestMethod.POST)//GUARDARA EN CASO EL ID LLEGUE NULO Y ACTUALIZA CUANDO LLEGA UN ID
 	public RestResponse saveOrUpdate(@RequestBody String localJson) throws JsonParseException, JsonMappingException, IOException {
-		
-
-
-
-		this.mapper = new ObjectMapper(); //DEBEMOS INICIALIZAR EL MAPPER PARA QUE FUNCIONE, SINO NOS SALTARA LA EXCEPCION LLAMADA NullPointerException
-		
+		this.mapper = new ObjectMapper(); //DEBEMOS INICIALIZAR EL MAPPER PARA QUE FUNCIONE, SINO NOS SALTARA LA EXCEPCION LLAMADA NullPointerException		
 		Local objLocal = this.mapper.readValue(localJson, Local.class);
-		//Local objLocal = this.mapper.reader().forType(Local.class).readValue(localJson);
-		
-		if(!this.validaLocal(objLocal)) { //recibir la validacion : !this.validae => indica si retorna false
-			
+		//Local objLocal = this.mapper.reader().forType(Local.class).readValue(localJson);		
+		if(!this.validaLocal(objLocal)) { //recibir la validacion : !this.validae => indica si retorna false			
 			//retornamos un error                      como es un entero, indicamos value()
-			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),"Los campos obligatorios no estan diligenciados");
-			
-		}
-		
-		this.localService.save(objLocal); //si es exitoso, llamamos al servicio
-		
+			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(),"Los campos obligatorios no estan diligenciados");			
+		}		
+		this.localService.save(objLocal); //si es exitoso, llamamos al servicio		
 		return new RestResponse(HttpStatus.OK.value(), "Operacion exitosa"); //CLASE COM.EVENTO.UTIL
+		}
+	
+	
+		@RequestMapping(value="/eliminarLocal" , method = RequestMethod.POST)
+	public void deleteLocal(@RequestBody String localJson ) throws Exception {
+		
+		this.mapper = new ObjectMapper();
+		Local objlocal = this.mapper.readValue(localJson, Local.class);
+			if(objlocal.getT_CabLocal_app_ID() == null) {
+				throw new Exception("El Id esta vacio");
+			}
+		this.localService.deleteLocal(objlocal.getT_CabLocal_app_ID());
+		
 	}
+
 	
 	private boolean validaLocal(Local local) { //VALIDAREMOS LOS CAMPOS DECLARADOS NO NULL EN LA BASE DE DATOS DE LA TABLA LOCAL
 		boolean isValid = true;
@@ -86,4 +92,6 @@ public class LocalController {
 		
 		return this.localService.findAll();
 	}
+	
+	
 }

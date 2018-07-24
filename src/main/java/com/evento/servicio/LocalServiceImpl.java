@@ -26,6 +26,12 @@ public class LocalServiceImpl implements LocalService {
 		
 		return this.localRepository.findAll(); 
 	}
+
+	@Override
+	public void deleteLocal(Integer t_CabLocal_app_ID) {
+		this.localRepository.deleteById(t_CabLocal_app_ID);
+		
+	}
 	
 	
 	
