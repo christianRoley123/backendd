@@ -1,6 +1,7 @@
 package com.evento.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.evento.model.Local;
 import com.evento.servicio.LocalService;
+
 import com.evento.util.RestResponse;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -77,5 +79,11 @@ public class LocalController {
 		
 		
 		return isValid;
+	}
+	
+	@RequestMapping(value = "/listarLocales" , method = RequestMethod.GET)
+	public List<Local> obtenerLocales() {
+		
+		return this.localService.findAll();
 	}
 }

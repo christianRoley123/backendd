@@ -1,5 +1,7 @@
 package com.evento.servicio;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,12 @@ public class LocalServiceImpl implements LocalService {
 	public Local save(Local local) {
 		
 		return this.localRepository.save(local);
+	}
+
+	@Override
+	public List<Local> findAll() {
+		
+		return this.localRepository.findAll(); 
 	}
 	
 	

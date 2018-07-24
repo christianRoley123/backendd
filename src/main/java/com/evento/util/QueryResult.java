@@ -2,7 +2,7 @@ package com.evento.util;
 
 import java.util.List;
 
-public class QueryResult {
+public class QueryResult { //PARA GUARDAR EL NUMERO DE REGISTROS DE LAS LISTAS
 	private int totalRecords;
 	public int getTotalRecords() {
 		return totalRecords;
